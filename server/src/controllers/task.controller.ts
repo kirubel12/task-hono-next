@@ -80,8 +80,8 @@ const createTask = async (c: Context) => {
 // Get all tasks
 const getTasks = async (c: Context) => {
   try {
-    const userId = c.get('userId');
-    const tasks = await Task.find({ createdBy: userId }).sort({ createdAt: -1 });
+    const user = c.get('user');
+    const tasks = await Task.find({ createdBy: user.id }).sort({ createdAt: -1 });
     return c.json({
       message: 'Tasks fetched successfully',
       data: tasks
@@ -94,9 +94,9 @@ const getTasks = async (c: Context) => {
 // Get single task
 const getTask = async (c: Context) => {
   try {
-    const userId = c.get('userId');
+    const user = c.get('user');
     const taskId = c.req.param('id');
-    const task = await Task.findOne({ _id: taskId, createdBy: userId });
+    const task = await Task.findOne({ _id: taskId, createdBy: user.id });
 
     if (!task) {
       return c.json({ error: 'Task not found' }, 404);
@@ -114,7 +114,7 @@ const getTask = async (c: Context) => {
 // Update task
 const updateTask = async (c: Context) => {
   try {
-    const userId = c.get('userId');
+    const user = c.get('user');
     const taskId = c.req.param('id');
     const body = await c.req.json();
     const validatedData = updateTaskSchema.parse(body);
@@ -125,7 +125,7 @@ const updateTask = async (c: Context) => {
     }
 
     const task = await Task.findOneAndUpdate(
-      { _id: taskId, createdBy: userId },
+      { _id: taskId, createdBy: user.id },
       update,
       { new: true }
     );
@@ -146,9 +146,9 @@ const updateTask = async (c: Context) => {
 // Delete task
 const deleteTask = async (c: Context) => {
   try {
-    const userId = c.get('userId');
+    const user = c.get('user');
     const taskId = c.req.param('id');
-    const task = await Task.findOneAndDelete({ _id: taskId, createdBy: userId });
+    const task = await Task.findOneAndDelete({ _id: taskId, createdBy: user.id });
 
     if (!task) {
       return c.json({ error: 'Task not found' }, 404);

@@ -5,9 +5,9 @@ import { protect } from '../middlewares/auth.middleware.js';
 const taskRouter = new Hono();
 
 taskRouter.post('/',protect, createTask);
-taskRouter.get('/', getTasks);
-taskRouter.get('/:id', getTask);
-taskRouter.patch('/:id', updateTask);
-taskRouter.delete('/:id', deleteTask);
+taskRouter.get('/',protect, getTasks);
+taskRouter.get('/:id', protect, getTask);
+taskRouter.put('/:id',protect,  updateTask);
+taskRouter.delete('/:id',protect, deleteTask);
 
 export default taskRouter;
