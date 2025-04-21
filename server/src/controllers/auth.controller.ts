@@ -130,7 +130,7 @@ const signinHandler = async (c: Context) => {
       return c.json({ error: 'Invalid credentials' }, 401);
     }
 
-   const token = await sign({ id: user.id.toString(), username: user.username, email: user.email }, process.env.JWT_SECRET!);
+   const token = await sign({ id: user.id.toString() }, process.env.JWT_SECRET!);
 
     return c.json({
       message: 'Signin successful',
@@ -152,6 +152,7 @@ const getMe = async (c: Context) => {
     return c.json({
       user: {
         id: user.id,
+        username: user.username,
         email: user.email
       }
     });

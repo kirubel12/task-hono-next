@@ -6,7 +6,6 @@ interface ITask extends Document {
   dueDate: Date;
   priority: 'low' | 'medium' | 'high';
   status: 'todo' | 'in-progress' | 'completed';
-  assignedTo: mongoose.Types.ObjectId;
   createdBy: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -36,11 +35,7 @@ const TaskSchema = new Schema({
     enum: ['todo', 'in-progress', 'completed'],
     default: 'todo'
   },
-  assignedTo: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
+ 
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',

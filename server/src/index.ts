@@ -3,11 +3,13 @@ import { Hono } from 'hono'
 import { connectDB } from './db/index.js'
 import { config } from 'dotenv'
 import authRouter from './routes/auth.router.js'
+import taskRouter from './routes/task.router.js'
 config()
 
 const app = new Hono()
 
 app.route("/api/v1/auth", authRouter);
+app.route("/api/v1/task", taskRouter);
 
 const PORT = process.env.PORT || 5000
 
