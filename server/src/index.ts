@@ -1,5 +1,6 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { connectDB } from './db/index.js'
 import { config } from 'dotenv'
 import authRouter from './routes/auth.router.js'
@@ -7,6 +8,9 @@ import taskRouter from './routes/task.router.js'
 config()
 
 const app = new Hono()
+
+// Add CORS middleware
+app.use('*', cors())
 
 app.route("/api/v1/auth", authRouter);
 app.route("/api/v1/task", taskRouter);
